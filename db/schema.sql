@@ -15,7 +15,7 @@ CREATE TABLE employees (
 DROP TABLE IF EXISTS departments;
 CREATE TABLE departments (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    department_name VARCHAR(20)
+    title VARCHAR(20)
 );
 
 DROP TABLE IF EXISTS employee_roles;
@@ -23,7 +23,7 @@ CREATE TABLE employee_roles (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(20),
     salary INT NOT NULL,
-    department_name VARCHAR(20)
+    department_id VARCHAR(20)
 );
 
 source db/seeds.sql

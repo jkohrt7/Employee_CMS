@@ -1,5 +1,19 @@
 {
   "dependencies": {
-    "inquirer": "^8.2.0"
-  }
+    "easy-table": "^1.2.0",
+    "inquirer": "^8.2.0",
+    "mysql2": "^2.3.2"
+  },
+  "name": "hw12_employee-tracker",
+  "version": "1.0.0",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
