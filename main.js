@@ -13,5 +13,5 @@ const db = mysql.createConnection({
 
 let empDb = new EmployeeList(db);
 empDb.showAllEmployees();
-//console.log(empDb.idToRoleString(1));
-
+empDb.showAllDepartments();
+empDb.showAllRoles();
