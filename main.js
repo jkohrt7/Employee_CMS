@@ -1,43 +1,66 @@
 
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const EmployeeList = require('./lib/EmployeeList')
 const inquirer = require('inquirer');
 const prompts = require('./lib/prompts');
 
-//connect to db
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'asecurepassword',
-    database: 'employee_db'
-})
+
 
 
 async function init() {
+    
+    //connect to db
+    const db = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'asecurepassword',
+        database: 'employee_db'
+    })
+
+    //Use it to create an object with sql methods
     let empDb = new EmployeeList(db);
 
-    //keep returning to start after each entry
+    //Keep asking the user for info until they quit
     var finished = false;
     while(!finished) {
         let choice = await prompts.selectOperationPrompt();
         choice = choice["operation"];
 
+        let results; //to avoid repeat declarations
         switch (choice) {
             case 'View All Employees':
-                empDb.showAllEmployees();
+                await empDb.showAllEmployees();
                 break;
+
             case 'Add Employee':
-                let e = await prompts.addEmployeePrompt();
-                //empDb.addEmployee(e.employee_fname,e.employee_lname, e.employee_role, e.manager_id);
+                let roles = await empDb.getAllRoleTitles();
+                let names = await empDb.getAllEmployeeNames();
+                let e = await prompts.addEmployeePrompt(roles, names);
+                await empDb.addEmployee(e);
                 break;
+
             case 'Update Employee Role' :
+                results = await updateEmployeeRolePrompt(); //TODO
                 break;
+
             case 'View All Roles' :
+                results = await empDb.showAllRoles();  //FINISHED
                 break;
+
+            case 'Add Role' :
+                results = await prompts.createRolePrompt(); //TODO
+                break;
+
+            case 'View All Departments' :
+                await empDb.showAllDepartments(); //FINISHED
+                break;
+                
             case 'Add Department' :
-                break;
+                results = await prompts.createDepartmentPrompt(); //TODO
+                break; 
+
             case 'Quit' :
-                finished = true;
+                finished = true; //FINISHED
                 break;
         }
     }
@@ -47,4 +70,20 @@ async function init() {
     db.end();
 }
 
+async function test() {
+    const db = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'asecurepassword',
+        database: 'employee_db'
+    })
+
+    let empDb = new EmployeeList(db);
+    empDb.showAllEmployees();
+    let values = await empDb.getAllRoleTitles();
+    console.log(values)
+    db.end();
+}
+
 init();
+//stest();
