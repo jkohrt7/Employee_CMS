@@ -26,21 +26,29 @@ async function init() {
         let choice = await prompts.selectOperationPrompt();
         choice = choice["operation"];
 
-        let results; //to avoid repeat declarations
+        //to avoid repeat declarations
+        let results; 
+        let roles;
+        let names;
+        let e;
+
         switch (choice) {
             case 'View All Employees':
                 await empDb.showAllEmployees();
                 break;
 
             case 'Add Employee':
-                let roles = await empDb.getAllRoleTitles();
-                let names = await empDb.getAllEmployeeNames();
-                let e = await prompts.addEmployeePrompt(roles, names);
+                roles = await empDb.getAllRoleTitles();
+                names = await empDb.getAllEmployeeNames();
+                e = await prompts.addEmployeePrompt(roles, names);
                 await empDb.addEmployee(e);
                 break;
 
             case 'Update Employee Role' :
-                results = await updateEmployeeRolePrompt(); //TODO
+                roles = await empDb.getAllRoleTitles();
+                names = await empDb.getAllEmployeeNames();
+                e = await prompts.updateEmployeeRolePrompt(names, roles);
+                await empDb.updateRole(e);
                 break;
 
             case 'View All Roles' :
