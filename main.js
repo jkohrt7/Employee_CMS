@@ -51,23 +51,43 @@ async function init() {
                 break;
 
             case 'View All Roles' :
-                results = await empDb.showAllRoles();  //FINISHED
+                results = await empDb.showAllRoles(); 
                 break;
 
             case 'Add Role' :
                 roles = await empDb.getAllRoleTitles();
-                departments = await empDb.getAllDepartmentTitles(); //need to test
+                departments = await empDb.getAllDepartmentTitles();
                 let newRole =  await prompts.createRolePrompt(roles,departments);
-                results = await empDb.addRole(newRole); //TODO
+                await empDb.addRole(newRole);
                 break;
 
             case 'View All Departments' :
-                await empDb.showAllDepartments(); //FINISHED
+                await empDb.showAllDepartments();
                 break;
                 
             case 'Add Department' :
-                results = await prompts.createDepartmentPrompt(); //TODO
+                departments = await empDb.getAllDepartmentTitles();
+                let newDept = await prompts.createDepartmentPrompt(departments); //TODO
+                await empDb.addDepartment(newDept);
                 break; 
+
+            case 'Delete Employee' :
+                names = await empDb.getAllEmployeeNames();
+                e = await prompts.deleteEmployeePrompt(names);
+                await empDb.deleteEmployee(e);
+                break;
+
+            case 'Delete Role' :
+                roles = await empDb.getAllRoleTitles();
+                let roleToDelete = await prompts.deleteRolePrompt(roles);
+                await empDb.deleteRole(roleToDelete);
+                break;
+
+            case 'Delete Department' :
+                departments = await empDb.getAllDepartmentTitles();
+                let deptToDelete = await prompts.deleteRolePrompt(departments);
+                await empDb.deleteDept(deptToDelete);
+                break;
 
             case 'Quit' :
                 finished = true; //FINISHED
