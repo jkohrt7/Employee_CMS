@@ -5,8 +5,6 @@ const inquirer = require('inquirer');
 const prompts = require('./lib/prompts');
 
 
-
-
 async function init() {
     
     //connect to db
@@ -20,7 +18,7 @@ async function init() {
     //Use it to create an object with sql methods
     let empDb = new EmployeeList(db);
 
-    //Keep asking the user for info until they quit
+    //Keep looping to the main menu until user selects 'Quit'
     var finished = false;
     while(!finished) {
         let choice = await prompts.selectOperationPrompt();
@@ -32,6 +30,7 @@ async function init() {
         let names;
         let e;
 
+        //Menu choices
         switch (choice) {
             case 'View All Employees':
                 await empDb.showAllEmployees();
@@ -56,7 +55,10 @@ async function init() {
                 break;
 
             case 'Add Role' :
-                results = await prompts.createRolePrompt(); //TODO
+                roles = await empDb.getAllRoleTitles();
+                departments = await empDb.getAllDepartmentTitles(); //need to test
+                let newRole =  await prompts.createRolePrompt(roles,departments);
+                results = await empDb.addRole(newRole); //TODO
                 break;
 
             case 'View All Departments' :
@@ -73,7 +75,7 @@ async function init() {
         }
     }
     
-    //sever the connection to the db
+    //sever the connection to the db once user quits
     console.log("Quitting...")
     db.end();
 }
