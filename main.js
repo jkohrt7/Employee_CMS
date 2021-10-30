@@ -39,6 +39,7 @@ async function init() {
             case 'Add Employee':
                 roles = await empDb.getAllRoleTitles();
                 names = await empDb.getAllEmployeeNames();
+                names.push('None');
                 e = await prompts.addEmployeePrompt(roles, names);
                 await empDb.addEmployee(e);
                 break;
