@@ -26,7 +26,7 @@ Afterwards, use the command `npm start` to begin the program. You'll be given a 
 Employee entires are built using existing roles and departments--you'll probably want to add some of each before building an Employee entry. 
 Simply follow the on screen intructions to enter data.
 
-A demonstration can be seen [here](https://github.com/jkohrt7/Employee_CMS);
+A demonstration can be seen [here](https://github.com/jkohrt7/Employee_CMS).
 
 ### Limitations
 Currently, if you remove a department that a customer is a part it will be replaced with null and cannot be updated. An update function is in development, but this project is pretty low priority and is more for demonstrative purposes (which is also why the login process is not streamlined!).
